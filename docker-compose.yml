@@ -1,0 +1,26 @@
+services:
+  # Serviço da API Node.js
+  api:
+    build: .
+    container_name: order-api
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27017/order-management
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  # Serviço do MongoDB
+  mongodb:
+    image: mongo:7
+    container_name: order-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
